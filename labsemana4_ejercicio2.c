@@ -24,7 +24,7 @@ void AddPatients(Patient pa[], int *numPoi, int num)
 		scanf("%d",&pa[num].room);
 		printf("Temperatura: ");
 		scanf("%f",&pa[num].temperature);
-		*numPoi = *num + 1;
+		*numPoi = num++;
 	}
 	else
 	{
@@ -52,11 +52,13 @@ int main()
 	Patient patients[MAX];
 	
 	do{
-		printf("--------------------------\n");
+		printf("---------HOSPITAL---------\n");
 		printf("[1] Agregar Paciente\n[2] Ver Pacientes\n[3] Salir\n");
 		printf("--------------------------\n");
-		printf ("Eleccion: ");
-		scanf("%d",&eleccion);
+		do{
+			printf ("Eleccion: ");
+			scanf("%d",&eleccion);
+		} while (eleccion < 1 || eleccion > 3);
 		
 		switch (eleccion)
 		{
