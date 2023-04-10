@@ -41,13 +41,14 @@ void Enqueue(Patient *pa, Patient **head) // añade paciente a cola
 	}
 }
 
-void Dequeue(Patient *head, Patient **next) // libera al primer paciente
+Patient* Dequeue(Patient *head, Patient **next) // libera al primer paciente
 {
 	if (head != NULL)
 	{
 		Patient *current = head;
 		*next = current->next;
-		free(current);
+		current->next = NULL;
+		return current;
 	}
 }
 
@@ -176,11 +177,13 @@ int main()
 				break;
 				
 			case 2: // dar de alta a paciente
+			printf("Dando de Alta...\n");
+				Patient *darAlta = Dequeue(head, &head);
 				printf("Datos De Paciente:\n");
-				GetNextPatient(head);
-				printf("Dando de Alta...");
-				sleep(1);
-				Dequeue(head, &head);
+				printf("Nombre:      %s\n", darAlta->name);
+				printf("Edad:        %d\n", darAlta->age);
+				printf("Habitacion:  %d\n", darAlta->room);
+				printf("Temperatura: %.2f\n", darAlta->temperature);
 			
 				printf("\n");
 				break;
