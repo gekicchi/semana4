@@ -1,36 +1,60 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 #define MAX 5
+#define TEMP 3
 int i=0;
+int j=0;
 
 typedef struct
 {
 	char name[50];
 	int age;
 	int room;
-	float temperature;
+	float temperature[TEMP];
 } Patient;
 
 void AddPatients(Patient pa[], int *numPoi, int num)
 {
-	if (num < MAX) // aun hay espacio en arreglo
+	if (num < MAX)
 	{
 		printf("-----PACIENTE %d-----\n",num+1);
 		printf("Nombre: ");
 		scanf("%s", &pa[num].name);
 		printf("Edad: ");
-		scanf("%d",&pa[num].age);
+		scanf("%d", &pa[num].age);
 		printf("Habitacion: ");
-		scanf("%d",&pa[num].room);
-		printf("Temperatura: ");
-		scanf("%f",&pa[num].temperature);
+		scanf("%d", &pa[num].room);
 		
 		*numPoi = num+1; // cuenta la cantidad de pacientes
 	}
-	else // no hay espacio en arreglo
+	else
 	{
 		printf("No Puede Agregar Mas Pacientes.\n");
+	}
+}
+
+void RecordTemperature(Patient pa[], int num)
+{
+	int numPaciente=0;
+	if (num > 0)
+	{
+		printf("Paciente a Agregar Temperatura?\n");
+		do{ 
+			printf("Paciente: ");
+			scanf("%d", &numPaciente);
+			if (numPaciente < 1 || numPaciente > num)
+				printf("INGRESO DE VALOR INVALIDO.\n");
+		} while (numPaciente < 1 || numPaciente > num);
+		
+		for (i=0; i<TEMP; i++) // rellena arreglo de temperatura
+		{
+			printf("Temperatura Dia %d: ", i+1);
+			scanf("%f", &pa[numPaciente-1].temperature[i]);
+		}
+	}
+	else
+	{
+		printf("NO HAY PACIENTES REGISTRADOS.\n");
 	}
 }
 
@@ -40,14 +64,15 @@ void PrintPatients(Patient pa[], int num)
 	{
 		for (i=0; i<num; i++)
 		{
-			printf("------PACIENTE %d------\n",i+1);
-			printf("Nombre:      %s\n",pa[i].name);
-			printf("Edad:        %d\n",pa[i].age);
-			printf("Habitacion:  %d\n",pa[i].room);
-			printf("Temperatura: %.2f\n",pa[i].temperature);
+			printf("------PACIENTE %d------\n", i+1);
+			printf("Nombre:      %s\n", pa[i].name);
+			printf("Edad:        %d\n", pa[i].age);
+			printf("Habitacion:  %d\n", pa[i].room);
+			for (j=0; j<TEMP; j++)
+				printf("Temperatura %d: %.2f\n", j+1, pa[i].temperature[j]);
 		}
 	}
-	else // se avisa en caso que no hayan pacientes registrados
+	else
 	{
 		printf("NO HAY PACIENTES REGISTRADOS.\n");
 	}
@@ -61,14 +86,14 @@ int main()
 	
 	do{
 		printf("---------HOSPITAL---------\n");
-		printf("[1] Agregar Paciente\n[2] Ver Pacientes\n[3] Salir\n");
+		printf("[1] Agregar Paciente\n[2] Registrar Temperatura\n[3] Ver Pacientes\n[4] Salir\n");
 		printf("--------------------------\n");
 		do{
 			printf ("Eleccion: ");
-			scanf("%d",&eleccion);
-			if (eleccion < 1 || eleccion > 3)
-				printf("INGRESO DE VALOR INCALIDO\n");
-		} while (eleccion < 1 || eleccion > 3);
+			scanf("%d", &eleccion);
+			if (eleccion < 1 || eleccion > 4)
+				printf("INGRESO DE VALOR INVALIDO\n");
+		} while (eleccion < 1 || eleccion > 4);
 		
 		printf("\n");
 		
@@ -79,13 +104,13 @@ int main()
 					AddPatients(patients, &numPatients, numPatients);
 					printf("\n");
 					
-					if (numPatients < MAX) // si todavia hay espacio se pregunta si se quiere seguir agregando pacientes
+					if (numPatients < MAX)
 					{
 						printf("Quiere Seguir Agregando Pacientes?\n");
 						printf("[1] Si\t[2] No\n");
 						do{
 							printf("Eleccion: ");
-							scanf("%d",&eleccion);
+							scanf("%d", &eleccion);
 							if (eleccion < 1 || eleccion > 2)
 								printf("INGRESO DE VALOR INVALIDO\n");
 						} while (eleccion < 1 || eleccion > 2);
@@ -95,18 +120,22 @@ int main()
 				
 				printf("\n");
 				break;
+				
+			case 2: // registrar temperatura
+				RecordTemperature(patients, numPatients);
+				break;
 			
-			case 2: // ver pacientes
+			case 3: // ver pacientes
 				PrintPatients(patients, numPatients);
 				
 				printf("\n");
 				break;
 				
-			case 3: // salir
+			case 4: // salir
 				printf("ADIOS!\n");
 				break;
 		}
-	} while (eleccion != 3);
+	} while (eleccion != 4);
 	
 	return 0;
 }

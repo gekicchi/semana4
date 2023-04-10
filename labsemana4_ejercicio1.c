@@ -12,7 +12,7 @@ typedef struct
 	float temperature;
 } Patient;
 
-void AddPatients(Patient pa[])
+void AddPatients(Patient pa[]) // llenar el arreglo de pacientes
 {
 	for (i=0; i<MAX; i++)
 	{
@@ -28,7 +28,7 @@ void AddPatients(Patient pa[])
 	}
 }
 
-void PrintPatients(Patient pa[])
+void PrintPatients(Patient pa[]) // imprimir datos de pacientes
 {
 	for (i=0; i<MAX; i++)
 	{
